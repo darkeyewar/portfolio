@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section id="home" className="relative overflow-hidden bg-slate-50 dark:bg-slate-950">
+    <section id="home" className="relative bg-slate-50 dark:bg-slate-950">
       {/* Subtle grid background */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(15,23,42,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
 
@@ -15,7 +15,7 @@ export default function Hero() {
       <div className="absolute top-20 left-10 w-72 h-72 bg-red-500/10 rounded-full blur-3xl" />
       <div className="absolute bottom-40 right-10 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
 
-      <div className="flex flex-col overflow-hidden pt-24 md:pt-0">
+      <div className="flex flex-col pt-24 md:pt-0">
         <ContainerScroll
           titleComponent={
             <>

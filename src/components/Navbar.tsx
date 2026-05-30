@@ -40,8 +40,8 @@ export default function Navbar() {
             className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white tracking-tight"
             whileHover={{ scale: 1.02 }}
           >
-            abdul<span className="text-red-600">rehman</span>
-            <span className="text-slate-400">.codes</span>
+            abdulrehman<span className="text-red-600">codes</span>
+            <span className="text-slate-400">.com</span>
           </motion.span>
         </Link>
 

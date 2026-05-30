@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
-import { Github, Linkedin, Twitter, Mail, ArrowUp } from "lucide-react";
+import { Linkedin, Mail, ArrowUp } from "lucide-react";
 import Link from "next/link";
 
 const footerLinks = {
@@ -22,9 +22,7 @@ const footerLinks = {
 };
 
 const socials = [
-  { icon: Github, href: "https://github.com/abdulrehmancodes", label: "GitHub" },
-  { icon: Linkedin, href: "https://linkedin.com/in/abdulrehmancodes", label: "LinkedIn" },
-  { icon: Twitter, href: "https://twitter.com/abdulrehmancodes", label: "Twitter" },
+  { icon: Linkedin, href: "https://www.linkedin.com/in/abdul-rehman-1b2174242", label: "LinkedIn" },
   { icon: Mail, href: "mailto:abdurrehman5683@gmail.com", label: "Email" },
 ];
 
@@ -63,8 +61,8 @@ export default function Footer() {
           {/* Brand */}
           <div className="md:col-span-2">
             <span className="text-xl font-bold text-white">
-              abdul<span className="text-red-500">rehman</span>
-              <span className="text-slate-500">.codes</span>
+              abdulrehman<span className="text-red-500">codes</span>
+              <span className="text-slate-500">.com</span>
             </span>
             <p className="mt-3 text-sm text-slate-400 max-w-sm leading-relaxed">
               Full-stack software engineer specializing in POS systems, SaaS

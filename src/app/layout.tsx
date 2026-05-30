@@ -116,9 +116,7 @@ export default function RootLayout({
               email: "abdurrehman5683@gmail.com",
               telephone: "+923328873258",
               sameAs: [
-                "https://github.com/abdulrehmancodes",
-                "https://linkedin.com/in/abdulrehmancodes",
-                "https://twitter.com/abdulrehmancodes",
+                "https://www.linkedin.com/in/abdul-rehman-1b2174242",
               ],
               knowsAbout: [
                 "POS Systems",
