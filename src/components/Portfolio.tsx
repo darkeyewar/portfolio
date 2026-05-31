@@ -11,6 +11,7 @@ import {
 } from "framer-motion";
 import { X, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
+import { GooeyText } from "@/components/ui/gooey-text-morphing";
 
 /* ─── Project Data ─── */
 const projects = [
@@ -345,6 +346,18 @@ export default function Portfolio() {
           <h2 className="mt-3 text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white">
             Featured Projects
           </h2>
+
+          {/* Gooey Text Morphing */}
+          <div className="mt-6 h-16 md:h-20 flex items-center justify-center">
+            <GooeyText
+              texts={["POS Systems", "SaaS Products", "Web Apps", "Dashboards", "Mobile Apps"]}
+              morphTime={1.5}
+              cooldownTime={0.5}
+              className="w-full h-full"
+              textClassName="text-3xl md:text-5xl font-bold text-red-600 dark:text-red-500"
+            />
+          </div>
+
           <p className="mt-4 text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
             A selection of projects that showcase my expertise in building
             business-critical software.
