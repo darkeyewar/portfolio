@@ -7,7 +7,6 @@ import {
   MapPin,
   Send,
   ArrowRight,
-  CheckCircle,
 } from "lucide-react";
 
 const contactInfo = [
@@ -35,42 +34,6 @@ export default function Contact() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
   const [submitted, setSubmitted] = useState(false);
-  const [sending, setSending] = useState(false);
-  const [error, setError] = useState("");
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setSending(true);
-    setError("");
-
-    const formData = new FormData(e.currentTarget);
-    // FormSubmit.co — sends directly to your email, zero config needed
-    formData.append("_captcha", "false");
-    formData.append("_subject", "New Project Inquiry from abdulrehmancodes.com");
-    formData.append("_template", "table");
-
-    try {
-      const res = await fetch("https://formsubmit.co/ajax/abdurrehman5683@gmail.com", {
-        method: "POST",
-        body: formData,
-      });
-
-      const result = await res.json();
-
-      if (!result.success) {
-        throw new Error("Failed to send");
-      }
-
-      setSubmitted(true);
-      e.currentTarget.reset();
-      setTimeout(() => setSubmitted(false), 4000);
-    } catch {
-      setError("Something went wrong. Please try again.");
-      setTimeout(() => setError(""), 5000);
-    } finally {
-      setSending(false);
-    }
-  };
 
   return (
     <section id="contact" className="py-24 md:py-32 bg-white dark:bg-slate-900">
@@ -153,9 +116,15 @@ export default function Contact() {
             className="lg:col-span-3"
           >
             <form
-              onSubmit={handleSubmit}
+              action="https://formsubmit.co/abdurrehman5683@gmail.com"
+              method="POST"
               className="bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-6 md:p-8 border border-slate-200 dark:border-slate-700/50 space-y-5"
             >
+              {/* FormSubmit config — hidden fields */}
+              <input type="hidden" name="_subject" value="New Project Inquiry from abdulrehmancodes.com" />
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="hidden" name="_template" value="table" />
+              <input type="hidden" name="_next" value="https://abdulrehmancodes.com/?submitted=true" />
               <div className="grid sm:grid-cols-2 gap-5">
                 <div>
                   <label
@@ -248,33 +217,12 @@ export default function Contact() {
                 />
               </div>
 
-              {error && (
-                <div className="p-3 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-800 rounded-xl text-sm text-red-600 dark:text-red-400">
-                  {error}
-                </div>
-              )}
-
               <button
                 type="submit"
-                disabled={submitted || sending}
-                className="w-full flex items-center justify-center gap-2 px-8 py-3.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl font-semibold hover:bg-slate-800 dark:hover:bg-slate-100 transition-all duration-200 disabled:opacity-70 cursor-pointer"
+                className="w-full flex items-center justify-center gap-2 px-8 py-3.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl font-semibold hover:bg-slate-800 dark:hover:bg-slate-100 transition-all duration-200 cursor-pointer"
               >
-                {submitted ? (
-                  <>
-                    <CheckCircle className="w-5 h-5" />
-                    Message Sent!
-                  </>
-                ) : sending ? (
-                  <>
-                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    Sending...
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-5 h-5" />
-                    Send Message
-                  </>
-                )}
+                <Send className="w-5 h-5" />
+                Send Message
               </button>
             </form>
           </motion.div>
