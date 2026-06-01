@@ -7,6 +7,7 @@ import {
   MapPin,
   Send,
   ArrowRight,
+  CheckCircle,
 } from "lucide-react";
 
 const contactInfo = [
@@ -34,6 +35,61 @@ export default function Contact() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSending(true);
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      const res = await fetch("https://formspree.io/f/maqkgjnw", {
+        method: "POST",
+        body: formData,
+        headers: { Accept: "application/json" },
+      });
+
+      if (res.ok) {
+        setSubmitted(true);
+        form.reset();
+        setTimeout(() => setSubmitted(false), 4000);
+      } else {
+        // Fallback: open mailto with form data
+        const name = formData.get("name");
+        const email = formData.get("email");
+        const service = formData.get("service");
+        const budget = formData.get("budget");
+        const message = formData.get("message");
+        const subject = encodeURIComponent("New Project Inquiry from abdulrehmancodes.com");
+        const body = encodeURIComponent(
+          `Name: ${name}\nEmail: ${email}\nService: ${service}\nBudget: ${budget}\n\nMessage:\n${message}`
+        );
+        window.open(`mailto:abdurrehman5683@gmail.com?subject=${subject}&body=${body}`);
+        setSubmitted(true);
+        form.reset();
+        setTimeout(() => setSubmitted(false), 4000);
+      }
+    } catch {
+      // If everything fails, use mailto
+      const name = formData.get("name");
+      const email = formData.get("email");
+      const service = formData.get("service");
+      const budget = formData.get("budget");
+      const message = formData.get("message");
+      const subject = encodeURIComponent("New Project Inquiry from abdulrehmancodes.com");
+      const body = encodeURIComponent(
+        `Name: ${name}\nEmail: ${email}\nService: ${service}\nBudget: ${budget}\n\nMessage:\n${message}`
+      );
+      window.open(`mailto:abdurrehman5683@gmail.com?subject=${subject}&body=${body}`);
+      setSubmitted(true);
+      form.reset();
+      setTimeout(() => setSubmitted(false), 4000);
+    } finally {
+      setSending(false);
+    }
+  };
 
   return (
     <section id="contact" className="py-24 md:py-32 bg-white dark:bg-slate-900">
@@ -116,15 +172,9 @@ export default function Contact() {
             className="lg:col-span-3"
           >
             <form
-              action="https://formsubmit.co/abdurrehman5683@gmail.com"
-              method="POST"
+              onSubmit={handleSubmit}
               className="bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-6 md:p-8 border border-slate-200 dark:border-slate-700/50 space-y-5"
             >
-              {/* FormSubmit config — hidden fields */}
-              <input type="hidden" name="_subject" value="New Project Inquiry from abdulrehmancodes.com" />
-              <input type="hidden" name="_captcha" value="false" />
-              <input type="hidden" name="_template" value="table" />
-              <input type="hidden" name="_next" value="https://abdulrehmancodes.com/?submitted=true" />
               <div className="grid sm:grid-cols-2 gap-5">
                 <div>
                   <label
@@ -219,10 +269,25 @@ export default function Contact() {
 
               <button
                 type="submit"
-                className="w-full flex items-center justify-center gap-2 px-8 py-3.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl font-semibold hover:bg-slate-800 dark:hover:bg-slate-100 transition-all duration-200 cursor-pointer"
+                disabled={sending || submitted}
+                className="w-full flex items-center justify-center gap-2 px-8 py-3.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl font-semibold hover:bg-slate-800 dark:hover:bg-slate-100 transition-all duration-200 disabled:opacity-70 cursor-pointer"
               >
-                <Send className="w-5 h-5" />
-                Send Message
+                {submitted ? (
+                  <>
+                    <CheckCircle className="w-5 h-5" />
+                    Message Sent!
+                  </>
+                ) : sending ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-5 h-5" />
+                    Send Message
+                  </>
+                )}
               </button>
             </form>
           </motion.div>
