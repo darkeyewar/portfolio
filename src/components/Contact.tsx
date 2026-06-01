@@ -44,31 +44,28 @@ export default function Contact() {
     setError("");
 
     const formData = new FormData(e.currentTarget);
-    const data = {
-      name: formData.get("name") as string,
-      email: formData.get("email") as string,
-      service: formData.get("service") as string,
-      budget: formData.get("budget") as string,
-      message: formData.get("message") as string,
-    };
+    // FormSubmit.co — sends directly to your email, zero config needed
+    formData.append("_captcha", "false");
+    formData.append("_subject", "New Project Inquiry from abdulrehmancodes.com");
+    formData.append("_template", "table");
 
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch("https://formsubmit.co/ajax/abdurrehman5683@gmail.com", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: formData,
       });
 
-      if (!res.ok) {
-        const result = await res.json();
-        throw new Error(result.error || "Failed to send");
+      const result = await res.json();
+
+      if (!result.success) {
+        throw new Error("Failed to send");
       }
 
       setSubmitted(true);
       e.currentTarget.reset();
       setTimeout(() => setSubmitted(false), 4000);
-    } catch (err: any) {
-      setError(err.message || "Something went wrong. Please try again.");
+    } catch {
+      setError("Something went wrong. Please try again.");
       setTimeout(() => setError(""), 5000);
     } finally {
       setSending(false);
